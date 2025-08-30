@@ -21,12 +21,13 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     margin: 4,
     overflow: "hidden",
+    minWidth: 100,
   },
   btnContainer: {
     backgroundColor: Colors.primary500,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    elevation: 4,
+    elevation: 2,
   },
   btnText: {
     color: "white",

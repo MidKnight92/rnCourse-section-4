@@ -12,8 +12,8 @@ export default function App() {
   };
   return (
     <LinearGradient
-      style={styles.rootContainer}
       colors={[Colors.primary700, Colors.accent500]}
+      style={styles.rootContainer}
     >
       <ImageBackground
         source={require("./assets/images/background.png")}
@@ -21,7 +21,7 @@ export default function App() {
         style={styles.rootContainer}
         imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView>
+        <SafeAreaView style={styles.rootContainer}>
           {!choosenNumber ? (
             <StartGameScreen onChoosenNumber={handleChoosenNumber} />
           ) : (
