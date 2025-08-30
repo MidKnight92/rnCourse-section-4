@@ -3,7 +3,7 @@ import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
-import { Colors } from "./constatns/colors";
+import { Colors } from "./constants/colors";
 
 export default function App() {
   const [choosenNumber, setchoosenNumber] = useState(null);
@@ -25,7 +25,7 @@ export default function App() {
           {!choosenNumber ? (
             <StartGameScreen onChoosenNumber={handleChoosenNumber} />
           ) : (
-            <GameScreen />
+            <GameScreen choosenNumber={choosenNumber} />
           )}
         </SafeAreaView>
       </ImageBackground>

@@ -1,7 +1,15 @@
 import { Text, StyleSheet, View } from "react-native";
-import PrimaryButton from "../components/PrimaryButton";
-import Title from "../components/Title";
-export default function GameScreen() {
+import PrimaryButton from "../components/ui/PrimaryButton";
+import Title from "../components/ui/Title";
+import { useState, useMemo } from "react";
+import { randomNumberGenerator } from "../util/helperFunctions";
+export default function GameScreen({ choosenNumber }) {
+  const initialGuess = useMemo(
+    () => randomNumberGenerator(1, 100, choosenNumber),
+    [choosenNumber]
+  );
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
   return (
     <View style={styles.gameScreenContainer}>
       <View>
