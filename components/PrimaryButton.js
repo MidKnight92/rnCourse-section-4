@@ -1,12 +1,9 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
-export default function PrimaryButton({ children }) {
-  const handlePress = () => {
-    console.log("pressed");
-  };
+export default function PrimaryButton({ children, btnHandler }) {
   return (
     <View style={styles.btnOuterContainer}>
       <Pressable
-        onPress={handlePress}
+        onPress={btnHandler}
         android_ripple={{ color: "#640333" }}
         style={({ pressed }) =>
           pressed ? [styles.pressed, styles.btnContainer] : styles.btnContainer
