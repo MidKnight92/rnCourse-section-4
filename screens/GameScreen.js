@@ -1,33 +1,51 @@
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Alert } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Title from "../components/ui/Title";
-import { useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { randomNumberGenerator } from "../util/helperFunctions";
 import NumberContainer from "../components/game/NumberContainer";
+import { HIGHER, LOWER } from "../constants/gameScreen";
 
-const LOWER = "lower";
-const HIGHER = "higher";
-let min = 1;
-let max = 100;
+export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
+  const [currentGuess, setCurrentGuess] = useState(() =>
+    randomNumberGenerator(1, 100, choosenNumber)
+  );
+  const minRef = useRef(1);
+  const maxRef = useRef(100);
 
-export default function GameScreen({ choosenNumber }) {
-  const initialGuess = randomNumberGenerator(1, 100, choosenNumber);
-  const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const handleNextGuess = (direction) => {
-    if (direction === LOWER) {
-      max = currentGuess;
-    } else {
-      min = currentGuess;
+    if (
+      (direction === LOWER && currentGuess < choosenNumber) ||
+      (direction === HIGHER && currentGuess > choosenNumber)
+    ) {
+      Alert.alert("Invalid", "Please give honest response", [
+        { text: "Ok", style: "cancel" },
+      ]);
+      return;
     }
-    const guess = randomNumberGenerator(min, max, currentGuess);
-    setCurrentGuess(guess);
+
+    if (direction === LOWER) maxRef.current = currentGuess;
+    else if (direction === HIGHER) minRef.current = currentGuess;
+
+    const nextGuess = randomNumberGenerator(
+      minRef.current,
+      maxRef.current,
+      currentGuess
+    );
+    setCurrentGuess(nextGuess);
   };
+
+  useEffect(() => {
+    if (choosenNumber === currentGuess) {
+      onGameOver();
+    }
+  }, [currentGuess, choosenNumber, onGameOver]);
   return (
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
       <View>
-        <Text style={{ color: "white", padding: 23 }}>Lower or Higher?</Text>
+        <Text style={styles.lowHigh}>Lower or Higher?</Text>
       </View>
       <View style={styles.btnContainer}>
         <PrimaryButton btnHandler={() => handleNextGuess(HIGHER)}>
@@ -48,4 +66,5 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   btnContainer: { flexDirection: "row", justifyContent: "center" },
+  lowHigh: { color: "white", padding: 23 },
 });
