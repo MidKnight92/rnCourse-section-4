@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { randomNumberGenerator } from "../util/helperFunctions";
 import NumberContainer from "../components/game/NumberContainer";
 import { HIGHER, LOWER } from "../constants/gameScreen";
+import Card from "../components/ui/Card";
+import InstructionText from "../components/ui/InstructionText";
 
 export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
   const [currentGuess, setCurrentGuess] = useState(() =>
@@ -44,18 +46,20 @@ export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <View>
-        <Text style={styles.lowHigh}>Lower or Higher?</Text>
-      </View>
-      <View style={styles.btnContainer}>
-        <PrimaryButton btnHandler={() => handleNextGuess(HIGHER)}>
-          +
-        </PrimaryButton>
-        <PrimaryButton btnHandler={() => handleNextGuess(LOWER)}>
-          -
-        </PrimaryButton>
-      </View>
-      {/* <View>Log Rounds</View> */}
+      <Card>
+        <View>
+          <InstructionText>Lower or Higher?</InstructionText>
+        </View>
+        <View style={styles.btnContainer}>
+          <PrimaryButton btnHandler={() => handleNextGuess(HIGHER)}>
+            +
+          </PrimaryButton>
+          <PrimaryButton btnHandler={() => handleNextGuess(LOWER)}>
+            -
+          </PrimaryButton>
+        </View>
+        {/* <View>Log Rounds</View> */}
+      </Card>
     </View>
   );
 }
@@ -66,5 +70,4 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   btnContainer: { flexDirection: "row", justifyContent: "center" },
-  lowHigh: { color: "white", padding: 23 },
 });
