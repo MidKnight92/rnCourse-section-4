@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Title from "../components/ui/Title";
 import { useEffect, useRef, useState } from "react";
@@ -7,6 +7,7 @@ import NumberContainer from "../components/game/NumberContainer";
 import { HIGHER, LOWER } from "../constants/gameScreen";
 import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
   const [currentGuess, setCurrentGuess] = useState(() =>
@@ -52,10 +53,10 @@ export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
         </View>
         <View style={styles.btnContainer}>
           <PrimaryButton btnHandler={() => handleNextGuess(HIGHER)}>
-            +
+            <Ionicons name="add" size={24} color="white" />
           </PrimaryButton>
           <PrimaryButton btnHandler={() => handleNextGuess(LOWER)}>
-            -
+            <Ionicons name="remove" size={24} color="white" />
           </PrimaryButton>
         </View>
         {/* <View>Log Rounds</View> */}

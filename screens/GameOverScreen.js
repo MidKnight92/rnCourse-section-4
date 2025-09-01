@@ -1,5 +1,10 @@
-import { Textw } from "react-native";
+import Card from "../components/ui/Card";
+import InstructionText from "../components/ui/InstructionText";
 
 export default function GameOverScreen() {
-  return <Text>Game Over</Text>;
+  return (
+    <Card>
+      <InstructionText>Game Over</InstructionText>
+    </Card>
+  );
 }

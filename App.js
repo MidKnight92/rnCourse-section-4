@@ -1,6 +1,7 @@
 import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { useFonts } from "expo-font";
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
 import { Colors } from "./constants/colors";
@@ -16,6 +17,10 @@ export default function App() {
     setIsGameOver(false);
     setchosenNumber(null);
   };
+  const [] = useFonts({
+    regular: require("./assets/fonts/OpenSans-Regular.ttf"),
+    bold: require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
   return (
     <LinearGradient
       colors={[Colors.primary700, Colors.accent500]}
