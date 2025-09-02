@@ -1,4 +1,10 @@
-import { StyleSheet, View, Alert, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Title from "../components/ui/Title";
 import { useEffect, useRef, useState } from "react";
@@ -19,6 +25,7 @@ export default function GameScreen({
   const [currentGuess, setCurrentGuess] = useState(() =>
     randomNumberGenerator(1, 100, choosenNumber)
   );
+  const { width, height } = useWindowDimensions();
   const minRef = useRef(1);
   const maxRef = useRef(100);
 
@@ -50,9 +57,9 @@ export default function GameScreen({
       onGameOver();
     }
   }, [currentGuess, choosenNumber, onGameOver]);
-  return (
-    <View style={styles.screen}>
-      <Title>Opponent's Guess</Title>
+
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <View>
@@ -67,6 +74,30 @@ export default function GameScreen({
           </PrimaryButton>
         </View>
       </Card>
+    </>
+  );
+
+  if (width > 500) {
+    content = (
+      <>
+        <View style={styles.btnContainerWide}>
+          <PrimaryButton btnHandler={() => handleNextGuess(HIGHER)}>
+            <Ionicons name="add" size={24} color="white" />
+          </PrimaryButton>
+        </View>
+        <NumberContainer>{currentGuess}</NumberContainer>
+        <View>
+          <PrimaryButton btnHandler={() => handleNextGuess(LOWER)}>
+            <Ionicons name="remove" size={24} color="white" />
+          </PrimaryButton>
+        </View>
+      </>
+    );
+  }
+  return (
+    <View style={styles.screen}>
+      <Title>Opponent's Guess</Title>
+      {content}
       <View style={styles.logContainer}>
         <FlatList
           data={guesses}
@@ -90,6 +121,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   btnContainer: { flexDirection: "row", justifyContent: "center" },
+  btnContainerWide: { flexDirection: "row", alignItems: "center" },
   logContainer: {
     flex: 1,
     padding: 16,
