@@ -9,7 +9,11 @@ import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
+export default function GameScreen({
+  choosenNumber,
+  onGameOver,
+  onIncreaseRoundCount,
+}) {
   const [currentGuess, setCurrentGuess] = useState(() =>
     randomNumberGenerator(1, 100, choosenNumber)
   );
@@ -36,6 +40,7 @@ export default function GameScreen({ choosenNumber, onGameOver, onGameReset }) {
       currentGuess
     );
     setCurrentGuess(nextGuess);
+    onIncreaseRoundCount();
   };
 
   useEffect(() => {
