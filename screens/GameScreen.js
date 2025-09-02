@@ -1,4 +1,4 @@
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, FlatList } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Title from "../components/ui/Title";
 import { useEffect, useRef, useState } from "react";
@@ -8,11 +8,13 @@ import { HIGHER, LOWER } from "../constants/gameScreen";
 import Card from "../components/ui/Card";
 import InstructionText from "../components/ui/InstructionText";
 import { Ionicons } from "@expo/vector-icons";
+import GuessLogItem from "../components/game/GuessLogItem";
 
 export default function GameScreen({
   choosenNumber,
   onGameOver,
   onIncreaseRoundCount,
+  guesses,
 }) {
   const [currentGuess, setCurrentGuess] = useState(() =>
     randomNumberGenerator(1, 100, choosenNumber)
@@ -40,7 +42,7 @@ export default function GameScreen({
       currentGuess
     );
     setCurrentGuess(nextGuess);
-    onIncreaseRoundCount();
+    onIncreaseRoundCount(nextGuess);
   };
 
   useEffect(() => {
@@ -64,8 +66,20 @@ export default function GameScreen({
             <Ionicons name="remove" size={24} color="white" />
           </PrimaryButton>
         </View>
-        {/* <View>Log Rounds</View> */}
       </Card>
+      <View style={styles.logContainer}>
+        <FlatList
+          data={guesses}
+          renderItem={(itemData) => (
+            <GuessLogItem
+              guess={itemData.item}
+              roundNumber={itemData.index}
+              numberOfGuesses={guesses.length}
+            />
+          )}
+          keyExtractor={(guess, idx) => `round-${idx}-${guess}`}
+        />
+      </View>
     </View>
   );
 }
@@ -76,4 +90,8 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   btnContainer: { flexDirection: "row", justifyContent: "center" },
+  logContainer: {
+    flex: 1,
+    padding: 16,
+  },
 });

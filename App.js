@@ -6,7 +6,6 @@ import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
 import { Colors } from "./constants/colors";
 import GameOverScreen from "./screens/GameOverScreen";
-import AppLoading from "expo-app-loading";
 import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
@@ -19,7 +18,7 @@ SplashScreen.setOptions({
 export default function App() {
   const [chosenNumber, setchosenNumber] = useState(null);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [rounds, setRounds] = useState(0);
+  const [guesses, setGuesses] = useState([]);
 
   const handleChosenNumber = (number) => {
     setchosenNumber(number);
@@ -27,9 +26,10 @@ export default function App() {
   const handleGameReset = () => {
     setIsGameOver(false);
     setchosenNumber(null);
+    setGuesses([]);
   };
-  const handleRoundIncrease = () => {
-    setRounds((currentRound) => currentRound + 1);
+  const handleRoundIncrease = (newGuess) => {
+    setGuesses((prevGuesses) => [newGuess, ...prevGuesses]);
   };
   const [isFontLoaded] = useFonts({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
@@ -41,7 +41,7 @@ export default function App() {
       SplashScreen.hideAsync();
     }
   }, [isFontLoaded]);
-  
+
   if (!isFontLoaded) {
     return null;
   }
@@ -63,7 +63,7 @@ export default function App() {
             <GameOverScreen
               choosenNumber={chosenNumber}
               onGameReset={handleGameReset}
-              rounds={rounds}
+              rounds={guesses}
             />
           ) : (
             <GameScreen
@@ -71,6 +71,7 @@ export default function App() {
               onGameOver={() => setIsGameOver(true)}
               onGameReset={handleGameReset}
               onIncreaseRoundCount={handleRoundIncrease}
+              guesses={guesses}
             />
           )}
         </SafeAreaView>

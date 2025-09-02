@@ -14,7 +14,7 @@ export default function GameOverScreen({ rounds, choosenNumber, onGameReset }) {
         />
       </View>
       <Text style={styles.summaryText}>
-        <Text style={styles.highlight}>{rounds}</Text> rounds were needed to
+        <Text style={styles.highlight}>{rounds.length}</Text> rounds were needed to
         guess your number <Text style={styles.highlight}>{choosenNumber}</Text>.
       </Text>
       <PrimaryButton btnHandler={onGameReset}>Start New Game</PrimaryButton>
