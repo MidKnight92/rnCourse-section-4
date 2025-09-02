@@ -7,6 +7,7 @@ import GameScreen from "./screens/GameScreen";
 import { Colors } from "./constants/colors";
 import GameOverScreen from "./screens/GameOverScreen";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -46,37 +47,40 @@ export default function App() {
     return null;
   }
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.accent500]}
-      style={styles.rootContainer}
-    >
-      <ImageBackground
-        source={require("./assets/images/background.png")}
-        resizeMode="cover"
+    <>
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary700, Colors.accent500]}
         style={styles.rootContainer}
-        imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView style={styles.rootContainer}>
-          {!chosenNumber && !isGameOver ? (
-            <StartGameScreen onChoosenNumber={handleChosenNumber} />
-          ) : isGameOver ? (
-            <GameOverScreen
-              choosenNumber={chosenNumber}
-              onGameReset={handleGameReset}
-              rounds={guesses}
-            />
-          ) : (
-            <GameScreen
-              choosenNumber={chosenNumber}
-              onGameOver={() => setIsGameOver(true)}
-              onGameReset={handleGameReset}
-              onIncreaseRoundCount={handleRoundIncrease}
-              guesses={guesses}
-            />
-          )}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          resizeMode="cover"
+          style={styles.rootContainer}
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.rootContainer}>
+            {!chosenNumber && !isGameOver ? (
+              <StartGameScreen onChoosenNumber={handleChosenNumber} />
+            ) : isGameOver ? (
+              <GameOverScreen
+                choosenNumber={chosenNumber}
+                onGameReset={handleGameReset}
+                rounds={guesses}
+              />
+            ) : (
+              <GameScreen
+                choosenNumber={chosenNumber}
+                onGameOver={() => setIsGameOver(true)}
+                onGameReset={handleGameReset}
+                onIncreaseRoundCount={handleRoundIncrease}
+                guesses={guesses}
+              />
+            )}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
